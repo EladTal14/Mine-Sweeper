@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+    <Sprint-1></Sprint-1>
+  </title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body onload="init()" oncontextmenu="return false">
+  <!-- TODO -->
+  <h1>Mine Sweeper</h1>
+  
+  <!-- <img class="emoji"/> -->
+  <div class="emoji"></div>
+  <div class="btn">
+    
+    
+    
+    
+  </div>
+  <table class="btn">
+    <tbody>
+      <tr>
+        <td class="easy" onclick="easy()">4X4</td>
+        <td class="medium" onclick="medium()">8X8</td>
+        <td class="hard" onclick="hard()">12X12</td>
+      </tr>
+
+    </tbody>
+  </table>
+  <div class="modal">
+    <!-- <button onclick="reset()">reset</button> -->
+    <div class="insideDiv showCount">Show Count: 0</div>
+    <div class="insideDiv markedCount">marked Count: 0</div>
+    <div class="insideDiv secondsPassed">Seconds Passed: 0</div>
+  </div>
+  <div class="lives">
+    
+  </div>
+  <table class="board">
+    <tbody  onmousedown="waiting()">
+
+
+    </tbody>
+
+
+  </table>
+
+
+  <script src="/javascript/util.js"></script>
+  <script src="/javascript/main.js"></script>
+</body>
+
+</html>

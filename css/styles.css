@@ -1,0 +1,122 @@
+*{
+  box-sizing: border-box
+}
+body{
+  background-color: bisque;
+
+}
+h1{
+  text-align: center;
+}
+.insideDiv{
+  display: inline-block;
+  margin: 30px;
+  background-color: rgb(139, 139, 95);
+}
+.board {
+  width: 400px;
+  height: 400px;
+  margin: 40px auto;
+  border: 3px black solid;
+  border-collapse: separate;
+   table-layout: fixed; 
+   box-shadow: 10px 10px grey;
+   /* box-sizing: content-box; */
+  /* box-sizing: border-box */
+}
+tr{
+  border: 1px black solid;
+  width: 10px;
+  height: 10px;
+  max-width: 10px;
+  max-height: 10px;
+  /* box-sizing: border-box */
+}
+
+td{
+  font-size:  15px;
+  min-width: 100px;
+  min-height: 10px;
+  max-width: 10px;
+  max-height: 10px;
+  width: 10px;
+  height: 10px;
+  border:2px black solid;
+  text-align: center;
+  background-color: gray;
+  /* border-radius: 20px; */
+  box-sizing: content-box;
+  text-shadow: 2px 2px 5px blue;
+  /* margin: 10px; */
+  /* padding: 5px; */
+   /* box-sizing: border-box  */
+  
+}
+td:hover{
+  background-color: orange;
+  transition: 0.5s;
+}
+.shown{
+  background-color: azure;
+}
+img{
+  /* display: inline;
+  width: 100%;
+  height: auto; */
+  width: 80px;
+  height: 80px;
+  cursor: pointer;
+}
+td img{
+  /* display: block; */
+  
+  width: 30px;
+  /* height: auto; */
+  /* width: 60px;*/
+  height: 30px; 
+  cursor: pointer;
+  margin: auto;
+}
+.emoji{
+  margin: auto;
+  width: 60px;
+  height: 60px;
+}
+.lost{
+  background-color: red;
+}
+
+.cells{
+  /* cells arent getting bigger!!! */
+  width: 30px;
+  height: 30px;
+}
+.btn{
+  margin: 30px auto;
+  text-align: center;
+}
+.btn td{
+  height: 20px;
+  cursor: pointer;
+  background-color: antiquewhite;
+}
+.btn td:hover{
+  background-color: aquamarine;
+}
+button{
+  margin: auto;
+  text-align: center;
+}
+div{
+  margin: auto;
+  text-align: center;
+  font-family: 'Courier New', Courier, monospace;
+  font-size:  23px;
+  color: white;
+  text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
+  /* text-shadow: 2px 2px 5px red; */
+}
+.lives img{
+
+  cursor:  default
+}
