@@ -1,5 +1,4 @@
 'use strict'
-
 const MINE = '<img src="img/mine.png"/>'
 const BLOWN_MINE = '<img src="img/blownMine.png"/>'
 const FLAG = '🚩'
@@ -43,7 +42,7 @@ function init() {
   emoji.innerHTML = NORMAL_EMOJI
   gBoard = buildBoard()
   renderBoard(gBoard)
-  // getGrayCells()
+
   var safe = document.querySelector('.safeClick')
   safe.innerText = ' safe Clicks left: ' + gSafeClicks
   var showCount = document.querySelector('.showCount')
@@ -87,8 +86,7 @@ function buildBoard() {
       board[i][j] = cell
     }
   }
-  // randomMines(board)
-  // setMinesNegsCount(board)
+
   return board
 }
 function renderBoard(gBoard) {
@@ -97,9 +95,9 @@ function renderBoard(gBoard) {
   for (var i = 0; i < gBoard.length; i++) {//span is so that the table wont move/collapse
     strHtml += '<tr>'
     for (var j = 0; j < gBoard[0].length; j++) {//onclick="cellClicked(this,${i},${j})"
-      // var className = (gBoard[i][j]) ? 'occupied' : '';
+
       strHtml += `<td data-i="${i}" data-j="${j}" onmouseup="cellClicked(event,this,${i},${j})"
-          class=" cells cell${i}-${j}"></td>`//${gBoard[i][j].minesAroundCount}
+          class=" cells cell${i}-${j}"></td>`
     }
     strHtml += '</tr>'
   }
@@ -120,7 +118,6 @@ function setMinesNegsCount(board) {
 
 function checkMines(board, cell) {
   var count = null
-  //console.log(cell);
   if (cell.minesAroundCount === MINE) return MINE
   for (var i = cell.i - 1; i <= cell.i + 1; i++) {
     if (i < 0 || i > board.length - 1) continue
@@ -197,9 +194,7 @@ function checkGameOver() {
 }
 
 function openNeibours(cellI, cellJ) {
-  // console.log(cellI, cellJ, cell)
   var shown = document.querySelector('.showCount')
-  //console.log(gBoard);
   for (var i = cellI - 1; i <= cellI + 1; i++) {
     if (i < 0 || i >= gBoard.length) continue;
     for (var j = cellJ - 1; j <= cellJ + 1; j++) {
@@ -212,15 +207,12 @@ function openNeibours(cellI, cellJ) {
         setMinesNegsCount(gBoard)
       }
       if (gBoard[i][j].minesAroundCount !== MINE && gBoard[i][j].isShown !== true) {
-        // update the model:
-        // if (gBoard[i][j].isShown !== true) {
         var elCell = document.querySelector(`.cell${i}-${j}`)
         gGame.shownCount++
         shown.innerText = 'Show Count: ' + gGame.shownCount
         gBoard[i][j].isShown = true
         renderCell({ i: i, j: j }, gBoard[i][j].minesAroundCount)
         elCell.classList.add('shown')
-        //  }
       }
 
     }
@@ -229,7 +221,6 @@ function openNeibours(cellI, cellJ) {
 
 function renderCell(location, value) {
   var elCell = document.querySelector(`.cell${location.i}-${location.j}`);
-
   elCell.innerText = value;
 }
 
@@ -241,9 +232,7 @@ function cellClicked(event, cell, i, j) {
   if (gGame.isOn === false) return
   if (gBoard[i][j].isShown === true) return
   if (event.button === 0) {
-
     if (cell.innerText === FLAG) return
-
     if (gBoard[i][j].minesAroundCount === MINE && gLives == 0) {
       lostGame(i, j)
       gBoard[i][j].isShown = true
@@ -282,20 +271,14 @@ function cellClicked(event, cell, i, j) {
 
       openNeibours(gBoard[i][j].i, gBoard[i][j].j)
     }
-
     cell.innerText = gBoard[i][j].minesAroundCount
     gBoard[i][j].innerText = cell.innerText
-
   }
   if (event.button === 2) {
-
     cellMarked(cell)
-    //console.log(cell)
     gBoard[i][j].innerText = (cell.innerText === FLAG) ? gBoard[i][j].innerText = FLAG : gBoard[i][j].innerText = ''
-    // console.log(gBoard[i][j].innerText)
   }
   if (startTime === 1) {
-
     var secPass = document.querySelector('.secondsPassed')
     gTimePassed = setInterval(() => {
       gGame.secsPassed++
@@ -304,10 +287,8 @@ function cellClicked(event, cell, i, j) {
   }
   checkGameOver()
 }
-
 function cellMarked(cell) {
   var markCount = document.querySelector('.markedCount')
-
   cell.innerText = (cell.innerText === FLAG) ? cell.innerText = '' : cell.innerText = FLAG
   gGame.markedCount = (cell.innerText === FLAG) ? gGame.markedCount + 1 : gGame.markedCount - 1
   markCount.innerText = 'marked Count: ' + gGame.markedCount
@@ -335,6 +316,7 @@ function randomMines(board) {
 
 function safeClick() {
   if (gSafeClicks === 0) return
+  if (gGame.isOn === false) return
   gSafeClicks--;
   var elSafe = document.querySelector('.safeClick')
   elSafe.innerText = 'safe Clicks left: ' + gSafeClicks
@@ -353,13 +335,14 @@ function safeClick() {
   var elCell = document.querySelector(`.cell${randomPlace.i}-${randomPlace.j}`)
 
   gSafeClick = setInterval(function () {
-    setTimeout(() => {
+    gTimeOut = setTimeout(() => {
       elCell.style.backgroundColor = 'gray'
     }, 1400);
     elCell.style.backgroundColor = 'orange'
   }, 1000)
   gTimeOut = setTimeout(() => {
     clearInterval(gSafeClick)
-    //elCell.style.backgroundColor = 'gray'
-  }, 8000);
+
+  }, 6000);
 }
+
