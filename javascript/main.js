@@ -8,7 +8,7 @@ const NORMAL_EMOJI = '<img src="img/normalEmoji.png"onclick="reset()" />'
 const LOSE_EMOJI = '<img src="img/loseEmoji.png" onclick="reset()"/>'
 const WIN_EMOJI = '<img src="img/WinningEmoji.jpg" onclick="reset()"/>'//find diffrent
 const SWEAT_EMOJI = '<img src="img/sweatingEmoji.jpg" onclick="reset()" />'
-const HEART = '<img src="img/heart.jpg"  />'
+const HEART = '<img src="img/heart.jpg" />'
 var gLevel
 var gGame
 var gBoard
