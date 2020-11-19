@@ -85,7 +85,7 @@ td img{
 }
 .btn td{
   border-radius: 20px;
-  border: 4 px black dashed;
+  border: 4 px black ;
   height: 30px;
   cursor: pointer;
   background-color: antiquewhite;
