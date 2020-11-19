@@ -10,19 +10,17 @@ h1{
 }
 .insideDiv{
   display: inline-block;
-  margin: 30px;
+  margin: 10px;
   background-color: rgb(139, 139, 95);
 }
 .board {
-  width: 400px;
-  height: 400px;
+  width: 500px;
+  height: 500px;
   margin: 40px auto;
   border: 3px black solid;
   border-collapse: separate;
    table-layout: fixed; 
    box-shadow: 10px 10px grey;
-   /* box-sizing: content-box; */
-  /* box-sizing: border-box */
 }
 tr{
   border: 1px black solid;
@@ -30,7 +28,6 @@ tr{
   height: 10px;
   max-width: 10px;
   max-height: 10px;
-  /* box-sizing: border-box */
 }
 
 td{
@@ -44,35 +41,25 @@ td{
   border:2px black solid;
   text-align: center;
   background-color: gray;
-  /* border-radius: 20px; */
   box-sizing: content-box;
   text-shadow: 2px 2px 5px blue;
-  /* margin: 10px; */
-  /* padding: 5px; */
-   /* box-sizing: border-box  */
+
   
 }
 td:hover{
-  background-color: orange;
+  background-color: rgb(199, 193, 193);
   transition: 0.5s;
 }
 .shown{
   background-color: azure;
 }
 img{
-  /* display: inline;
-  width: 100%;
-  height: auto; */
   width: 80px;
   height: 80px;
   cursor: pointer;
 }
 td img{
-  /* display: block; */
-  
   width: 30px;
-  /* height: auto; */
-  /* width: 60px;*/
   height: 30px; 
   cursor: pointer;
   margin: auto;
@@ -88,6 +75,7 @@ td img{
 
 .cells{
   /* cells arent getting bigger!!! */
+  
   width: 30px;
   height: 30px;
 }
@@ -96,9 +84,12 @@ td img{
   text-align: center;
 }
 .btn td{
-  height: 20px;
+  border-radius: 20px;
+  border: 4 px black dashed;
+  height: 30px;
   cursor: pointer;
   background-color: antiquewhite;
+  transition: 2s;
 }
 .btn td:hover{
   background-color: aquamarine;
@@ -114,9 +105,28 @@ div{
   font-size:  23px;
   color: white;
   text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
+  
   /* text-shadow: 2px 2px 5px red; */
+}
+.modal{
+  background-color:blue;
+  width:600px;
+  margin-bottom: 30px;
+  height:100px;
+  box-shadow:20px 20px 20px 10px red;  
 }
 .lives img{
 
   cursor:  default
+}
+.winning-table, th{
+  margin-right: 10px;
+  border: 3px black solid;
+}
+.winning-table{
+/* display:inline-block; */
+float: left;
+}
+.winning-table td{
+  background-color: red;
 }

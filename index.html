@@ -13,14 +13,10 @@
 <body onload="init()" oncontextmenu="return false">
   <!-- TODO -->
   <h1>Mine Sweeper</h1>
-  
+
   <!-- <img class="emoji"/> -->
   <div class="emoji"></div>
   <div class="btn">
-    
-    
-    
-    
   </div>
   <table class="btn">
     <tbody>
@@ -29,11 +25,38 @@
         <td class="medium" onclick="medium()">8X8</td>
         <td class="hard" onclick="hard()">12X12</td>
       </tr>
-
     </tbody>
   </table>
+  <div class="winning-div">
+    <table class="winning-table">
+      <th>easy</th>
+      <th>medium</th>
+      <th>hard</th>
+      <tbody>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
   <div class="modal">
-    <!-- <button onclick="reset()">reset</button> -->
     <div class="insideDiv showCount">Show Count: 0</div>
     <div class="insideDiv markedCount">marked Count: 0</div>
     <div class="insideDiv secondsPassed">Seconds Passed: 0</div>
@@ -42,7 +65,7 @@
 
   </div>
   <table class="board">
-    <tbody  onmousedown="waiting()">
+    <tbody >
 
 
     </tbody>

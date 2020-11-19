@@ -1,6 +1,5 @@
 'use strict'
-//TODO//
-//const MINE = '💣'
+
 const MINE = '<img src="img/mine.png"/>'
 const BLOWN_MINE = '<img src="img/blownMine.png"/>'
 const FLAG = '🚩'
@@ -18,6 +17,8 @@ var gMines = []
 var gFirstClick = 0
 var gLives = 3
 var gHeart
+var gInterval
+var gTimeOut
 var gLevel = {
   SIZE: 4,
   MINES: 2
@@ -31,6 +32,8 @@ var gGame = {
 
 function init() {
   var gHeart = document.querySelector('.lives')
+  gHeart.innerHTML = null
+  gHeart.style.visibility = 'visible'
   gHeart.innerHTML += HEART
   gHeart.innerHTML += HEART
   gHeart.innerHTML += HEART
@@ -38,6 +41,7 @@ function init() {
   emoji.innerHTML = NORMAL_EMOJI
   gBoard = buildBoard()
   renderBoard(gBoard)
+  // getGrayCells()
   var showCount = document.querySelector('.showCount')
   var markCount = document.querySelector('.markedCount')
   var secPass = document.querySelector('.secondsPassed')
@@ -47,9 +51,11 @@ function init() {
 
 }
 function reset() {
-  var gHeart = document.querySelector('.lives')
+  clearInterval(gTimeOut)
+  clearInterval(gInterval)
+  gTimeOut = null
+  gInterval = null
   gLives = 3
-  gHeart.innerHTML = ''
   startTime = 0
   gFirstClick = 0
   clearInterval(gTimePassed)
@@ -124,17 +130,34 @@ function checkMines(board, cell) {
 function lostGame() {
   for (var i = 0; i < gMines.length; i++) {
     var cell = gMines[i]
-
     var elCell = document.querySelector(`.cell${cell.i}-${cell.j}`);
-
     elCell.innerHTML = MINE;
-    // renderCell(gMines[i], MINE)
   }
   var emoji = document.querySelector('.emoji')
   emoji.innerHTML = LOSE_EMOJI
   clearInterval(gTimePassed)
   gGame.isOn = false
   console.log('lost')
+  gInterval = setInterval(function () {
+    for (var i = 0; i < gBoard.length; i++) {
+      for (var j = 0; j < gBoard.length; j++) {
+        var cell = document.querySelector(`.cell${i}-${j}`)
+        cell.style.backgroundColor = 'gray'
+        cell.style.transition = `${(gBoard.length - i) / 7}s`
+        cell.innerText = ''
+      }
+    }
+    gTimeOut = setTimeout(function () {
+      for (var i = 0; i < gBoard.length; i++) {
+        for (var j = 0; j < gBoard.length; j++) {
+          var cell = document.querySelector(`.cell${i}-${j}`)
+          cell.style.backgroundColor = 'red'
+          cell.style.transition = `${gBoard.length - i}s`
+        }
+      }
+    }, 500);
+  }, 3000)
+  //alert('THIS GAME TEST YOUR IQ\nYOURS IS: NaN')
 }
 function checkGameOver() {
   if (gLevel.SIZE ** 2 - gLevel.MINES === gGame.shownCount && gGame.markedCount === gLevel.MINES) {
@@ -143,6 +166,26 @@ function checkGameOver() {
     var emoji = document.querySelector('.emoji')
     emoji.innerHTML = WIN_EMOJI
     clearInterval(gTimePassed)
+
+    gInterval = setInterval(function () {
+      for (var i = 0; i < gBoard.length; i++) {
+        for (var j = 0; j < gBoard.length; j++) {
+          var cell = document.querySelector(`.cell${i}-${j}`)
+          cell.style.backgroundColor = 'gray'
+          cell.style.transition = `${(gBoard.length - i) / 7}s`
+          cell.innerText = ''
+        }
+      }
+      gTimeOut = setTimeout(function () {
+        for (var i = 0; i < gBoard.length; i++) {
+          for (var j = 0; j < gBoard.length; j++) {
+            var cell = document.querySelector(`.cell${i}-${j}`)
+            cell.style.backgroundColor = 'green'
+            cell.style.transition = `${gBoard.length - i}s`
+          }
+        }
+      }, 500);
+    }, 3000)
   }
 
 }
@@ -206,11 +249,16 @@ function cellClicked(event, cell, i, j) {
     }
     else if (gLives !== 0 && gBoard[i][j].minesAroundCount === MINE) {
       gLives--
-      for (var i = 0; i <= gLives; i++) {
-        var gHeart = document.querySelector('.lives')
+      var gHeart = document.querySelector('.lives')
+      gHeart.innerHTML = null
+      for (var i = 0; i <= gLives - 1; i++) {
+
         gHeart.innerHTML += HEART
       }
-      console.log(gLives, gHeart);
+      if (gLives === 0) {
+        gHeart.innerHTML += HEART
+        gHeart.style.visibility = 'hidden'
+      }
       cell.style.backgroundColor = 'red'
       setTimeout(() => {
         cell.style.backgroundColor = 'gray'
@@ -261,7 +309,6 @@ function cellMarked(cell) {
 
 function randomMines(board) {
   var counter = 0
-
   var randomNum = 0
   while (counter !== gLevel.MINES) {
     for (var i = 0; i < board.length; i++) {
@@ -272,7 +319,6 @@ function randomMines(board) {
         if (randomNum < 3 && board[i][j].minesAroundCount !== MINE && board[i][j].isShown !== true) {
           gMines.push({ i, j })
           board[i][j].minesAroundCount = MINE
-
           counter++;
         }
       }
@@ -301,12 +347,21 @@ function hard() {
   };
   reset()
 }
-function waiting() {
-  if (gGame.isOn) {
-    var emoji = document.querySelector('.emoji')
-    emoji.innerHTML = SWEAT_EMOJI
+function getGrayCells() {
+  for (var i = 0; i < gBoard.length; i++) {
+    for (var j = 0; j < gBoard.length; j++) {
+      var cell = document.querySelector(`.cell${i}-${j}`)
+      cell.style.backgroundColor = 'gray'
+    }
   }
 }
+// function waiting() {
+//   if (gGame.isOn) {
+//     var emoji = document.querySelector('.emoji')
+//     emoji.innerHTML = SWEAT_EMOJI
+//   }
+//   console.log('gsfsdf')
+// }
 // function clicked(){
 //   var emoji = document.querySelector('.emoji')
 //   emoji.innerHTML = NORMAL_EMOJI
