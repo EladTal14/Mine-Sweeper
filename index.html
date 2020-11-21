@@ -25,23 +25,20 @@
         <td class="medium" onclick="medium()">8X8</td>
         <td class="hard" onclick="hard()">12X12</td>
         <td class="safeClick" onclick="safeClick()">safe Clicks left: 3</td>
-
+        <td onclick="undo()">undo</td>
       </tr>
     </tbody>
   </table>
-  <!-- <div class="winning-div">
+  <div class="winning-div">
     <table class="winning-table">
-      <th>easy</th>
-      <th>medium</th>
-      <th>hard</th>
+      <thead>
+        <th>easy</th>
+        <th>medium</th>
+        <th>hard</th>
+      </thead>
       <tbody>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td></td>
+        <!-- <tr>
+          <td class="result"></td>
           <td></td>
           <td></td>
         </tr>
@@ -55,20 +52,32 @@
           <td></td>
           <td></td>
         </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr> -->
       </tbody>
     </table>
-  </div> -->
+  </div>
   <div class="modal">
     <div class="insideDiv showCount">Show Count: 0</div>
     <div class="insideDiv markedCount">marked Count: 0</div>
     <div class="insideDiv secondsPassed">Seconds Passed: 0</div>
   </div>
   <div class="lives">
+
   </div>
+  <!-- <div class="video"></div>
+  <video width="100" height="100" autoplay loop>
+    <source src="img/hear-pump.mp4" type="video/mp4">
+  </video> -->
   <table class="board">
     <tbody>
     </tbody>
   </table>
+
+  <!-- <div class="result" style="width:70px;height: 70px; background-color: black;color: white;"></div> -->
   <script src="javascript/util.js"></script>
   <script src="javascript/main.js"></script>
 </body>

@@ -1,4 +1,5 @@
 'use strict'
+
 const MINE = '<img src="img/mine.png"/>'
 const BLOWN_MINE = '<img src="img/blownMine.png"/>'
 const FLAG = '🚩'
@@ -6,20 +7,27 @@ const NORMAL_EMOJI = '<img src="img/normalEmoji.png"onclick="reset()" />'
 const LOSE_EMOJI = '<img src="img/loseEmoji.png" onclick="reset()"/>'
 const WIN_EMOJI = '<img src="img/WinningEmoji.jpg" onclick="reset()"/>'//find diffrent
 const SWEAT_EMOJI = '<img src="img/sweatingEmoji.jpg" onclick="reset()" />'
-const HEART = '<img src="img/heart.jpg" />'
+const HEART = '<img src="img/heart2.png" />'
+var gPlayers = 0
+sessionStorage.setItem('numOfPlayers', gPlayers)
 var gLevel
 var gGame
 var gBoard
 var gTimePassed
 var startTime = 0
+
 var gMines = []
 var gFirstClick = 0
-var gLives = 3
+var gLives = 2
 var gSafeClicks = 3
+
 var gHeart
 var gInterval
 var gTimeOut
 var gSafeClick
+var gName
+
+var gClicks = []
 var gLevel = {
   SIZE: 4,
   MINES: 2
@@ -37,12 +45,11 @@ function init() {
   gHeart.style.visibility = 'visible'
   gHeart.innerHTML += HEART
   gHeart.innerHTML += HEART
-  gHeart.innerHTML += HEART
   var emoji = document.querySelector('.emoji')
   emoji.innerHTML = NORMAL_EMOJI
   gBoard = buildBoard()
   renderBoard(gBoard)
-
+  // getGrayCells()
   var safe = document.querySelector('.safeClick')
   safe.innerText = ' safe Clicks left: ' + gSafeClicks
   var showCount = document.querySelector('.showCount')
@@ -54,12 +61,15 @@ function init() {
 
 }
 function reset() {
+  gClicks = []
+  gPlayers++
   clearInterval(gTimeOut)
   clearInterval(gInterval)
   gTimeOut = null
   gInterval = null
   gSafeClick = null
-  gLives = 3
+  gName = null
+  gLives = 2
   gSafeClicks = 3
   startTime = 0
   gFirstClick = 0
@@ -86,7 +96,8 @@ function buildBoard() {
       board[i][j] = cell
     }
   }
-
+  // randomMines(board)
+  // setMinesNegsCount(board)
   return board
 }
 function renderBoard(gBoard) {
@@ -94,10 +105,10 @@ function renderBoard(gBoard) {
   var strHtml = '';
   for (var i = 0; i < gBoard.length; i++) {//span is so that the table wont move/collapse
     strHtml += '<tr>'
-    for (var j = 0; j < gBoard[0].length; j++) {//onclick="cellClicked(this,${i},${j})"
+    for (var j = 0; j < gBoard[0].length; j++) {
 
       strHtml += `<td data-i="${i}" data-j="${j}" onmouseup="cellClicked(event,this,${i},${j})"
-          class=" cells cell${i}-${j}"></td>`
+          class=" cells cell${i}-${j}"></td>`//${gBoard[i][j].minesAroundCount}
     }
     strHtml += '</tr>'
   }
@@ -118,6 +129,7 @@ function setMinesNegsCount(board) {
 
 function checkMines(board, cell) {
   var count = null
+  //console.log(cell);
   if (cell.minesAroundCount === MINE) return MINE
   for (var i = cell.i - 1; i <= cell.i + 1; i++) {
     if (i < 0 || i > board.length - 1) continue
@@ -189,12 +201,18 @@ function checkGameOver() {
         }
       }, 500);
     }, 3000)
+    setTimeout(function () {
+      // clickCounter()
+      // insertTable()
+    }, 5000)
   }
 
 }
 
 function openNeibours(cellI, cellJ) {
+  // console.log(cellI, cellJ, cell)
   var shown = document.querySelector('.showCount')
+  //console.log(gBoard);
   for (var i = cellI - 1; i <= cellI + 1; i++) {
     if (i < 0 || i >= gBoard.length) continue;
     for (var j = cellJ - 1; j <= cellJ + 1; j++) {
@@ -202,17 +220,20 @@ function openNeibours(cellI, cellJ) {
       if (j < 0 || j >= gBoard.length) continue;
 
       gFirstClick++
-      if (gFirstClick === 1) {
+      if (gFirstClick === 1) {// on first click put bombs and numbers to each cell
         randomMines(gBoard)
         setMinesNegsCount(gBoard)
       }
       if (gBoard[i][j].minesAroundCount !== MINE && gBoard[i][j].isShown !== true) {
+        // update the model:
+        // if (gBoard[i][j].isShown !== true) {
         var elCell = document.querySelector(`.cell${i}-${j}`)
         gGame.shownCount++
         shown.innerText = 'Show Count: ' + gGame.shownCount
         gBoard[i][j].isShown = true
         renderCell({ i: i, j: j }, gBoard[i][j].minesAroundCount)
         elCell.classList.add('shown')
+        //  }
       }
 
     }
@@ -221,6 +242,7 @@ function openNeibours(cellI, cellJ) {
 
 function renderCell(location, value) {
   var elCell = document.querySelector(`.cell${location.i}-${location.j}`);
+
   elCell.innerText = value;
 }
 
@@ -229,11 +251,15 @@ function cellClicked(event, cell, i, j) {
   clearInterval(gTimeOut)
   clearInterval(gSafeClick)
   var shown = document.querySelector('.showCount')
+  // var pumpHeart = document.querySelector('video')
   if (gGame.isOn === false) return
+
   if (gBoard[i][j].isShown === true) return
   if (event.button === 0) {
+
     if (cell.innerText === FLAG) return
     if (gBoard[i][j].minesAroundCount === MINE && gLives == 0) {
+      // pumpHeart.playbackRate = 0
       lostGame(i, j)
       gBoard[i][j].isShown = true
       cell.innerHTML = BLOWN_MINE
@@ -245,6 +271,8 @@ function cellClicked(event, cell, i, j) {
     else if (gLives !== 0 && gBoard[i][j].minesAroundCount === MINE) {
       gLives--
       var gHeart = document.querySelector('.lives')
+
+      // pumpHeart.playbackRate += 1.5
       gHeart.innerHTML = null
       for (var i = 0; i <= gLives - 1; i++) {
 
@@ -264,9 +292,7 @@ function cellClicked(event, cell, i, j) {
     gBoard[i][j].isShown = true
     gGame.shownCount++
     shown.innerText = 'Show Count: ' + gGame.shownCount
-
     cell.style.backgroundColor = 'azure'
-
     if (gBoard[i][j].minesAroundCount === null) {
 
       openNeibours(gBoard[i][j].i, gBoard[i][j].j)
@@ -287,8 +313,10 @@ function cellClicked(event, cell, i, j) {
   }
   checkGameOver()
 }
+
 function cellMarked(cell) {
   var markCount = document.querySelector('.markedCount')
+
   cell.innerText = (cell.innerText === FLAG) ? cell.innerText = '' : cell.innerText = FLAG
   gGame.markedCount = (cell.innerText === FLAG) ? gGame.markedCount + 1 : gGame.markedCount - 1
   markCount.innerText = 'marked Count: ' + gGame.markedCount
@@ -337,8 +365,10 @@ function safeClick() {
   gSafeClick = setInterval(function () {
     gTimeOut = setTimeout(() => {
       elCell.style.backgroundColor = 'gray'
+      elCell.innerText = ''
     }, 1400);
     elCell.style.backgroundColor = 'orange'
+    elCell.innerText = 'click here'
   }, 1000)
   gTimeOut = setTimeout(() => {
     clearInterval(gSafeClick)
@@ -346,3 +376,63 @@ function safeClick() {
   }, 6000);
 }
 
+function fullExpand() {
+
+}
+function clickCounter() {
+  if (typeof (Storage) !== "undefined") {
+    if (document.querySelector(".result").innerHTML) {
+      alert('1')
+      return
+    }
+    gName = prompt('What is your name?')
+    document.querySelector(".result").innerHTML = gName
+  }
+}
+
+function insertTable() {
+
+  var table = document.querySelector(".winning-table tbody");
+  console.log(table)
+  if (table.rows.length > 10) {
+    table.deleteRow(10);
+  }
+
+  var name = prompt('What is your name?')
+
+
+  sessionStorage.setItem('name', name)
+  sessionStorage.setItem('seconds', gGame.secsPassed)
+  var row = table.insertRow(sessionStorage.getItem('numOfPlayers'));
+  row.insertCell(0).innerHTML = sessionStorage.getItem('name') + ' \n' + sessionStorage.getItem('seconds') + ' seconds';
+  console.log(sessionStorage.getItem('numOfPlayers'), sessionStorage.getItem('name'), sessionStorage.getItem('seconds'))
+
+}
+
+// function undo() {
+//   if (gClicks.length <= 1) return
+//   var showCount = document.querySelector('.showCount')
+//   var markCount = document.querySelector('.markedCount')
+//   var elCell = document.querySelector(`.cell${gClicks[gClicks.length - 1].i}-${gClicks[gClicks.length - 1].j}`)
+//   gBoard[gClicks[gClicks.length - 1].i][gClicks[gClicks.length - 1].j].isShown = false;
+//   console.log(elCell.innerText);
+//   if (gBoard[gClicks[gClicks.length - 1].i][gClicks[gClicks.length - 1].j].innerText === FLAG) gGame.markedCount - 1
+//   else gGame.shownCount - 1;
+//   console.log(gGame.markedCount, gGame.shownCount)
+//   markCount.innerText = 'marked Count: ' + gGame.markedCount
+//   showCount.innerText = 'Show Count: ' + gGame.shownCount
+//   elCell.innerText = '';
+//   console.log(gBoard[gClicks[gClicks.length - 1].i][gClicks[gClicks.length - 1].j])
+//   console.log(elCell)
+//   elCell.style.backgroundColor = 'gray'
+//   gClicks.pop()
+// }
+function undo() {
+
+  console.log(gBoard)
+  gClicks.push(JSON.parse(JSON.stringify(gBoard)))
+  console.log(gClicks)
+  // gBoard = gClicks.pop()
+  // renderBoard(gBoard)
+  // console.log(gBoard)
+}

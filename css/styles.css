@@ -2,7 +2,9 @@
   box-sizing: border-box
 }
 body{
-  background-color: bisque;
+  background:url(https://www.transparenttextures.com/patterns/arches.png) repeat, linear-gradient(to bottom,  #7abcff 0%,#4096ee 100%);
+  /* background:url(/img/arches.png) repeat #2800ad;
+  background-color: #2800ad;  */
 
 }
 h1{
@@ -89,7 +91,7 @@ td img{
   height: 30px;
   cursor: pointer;
   background-color: antiquewhite;
-  transition: 2s;
+  transition: 1.3s;
 }
 .btn td:hover{
   background-color: aquamarine;
@@ -114,9 +116,12 @@ div{
   margin-bottom: 30px;
   height:100px;
   box-shadow:20px 20px 20px 10px red;  
+  margin-left: 420px;
 }
 .lives img{
-
+  /* background-color: bisque; */
+  opacity: 1;
+  /* background-color:  bisque; */
   cursor:  default
 }
 .winning-table, th{
@@ -130,3 +135,14 @@ float: left;
 .winning-table td{
   background-color: red;
 }
+/* .winning-div{
+  margin-left: 100px;
+} */
+/* .video{
+  display: inline-block;
+  margin: auto;
+} */
+/* .lives{
+  display: inline-block;
+  margin: auto;
+} */
